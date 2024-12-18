@@ -63,8 +63,9 @@
          echo "déploiement de l'application"
                 echo "déploiement de l'application"
 		 sh 'chmod +x TestscriptCalculator.sh'
-		 def result = sh(script: './TestscriptCalculator.sh', returnStatus: true)
-		 echo "Code de retour : ${result}"
+		 //def result = sh(script: './TestscriptCalculator.sh', returnStatus: true)
+		 //echo "Code de retour : ${result}"
+                 sh './TestscriptCalculator.sh'
       }
      }
    }
