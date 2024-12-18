@@ -46,4 +46,21 @@
       }
      }
    }
+   // l'option post permet de lancer systématiquement certaines commandes apres la fin d'un pipeline
+   post {
+        // post possede 3 sous-options en fonction de l'etat de la pipeline a la fin:
+        // always est lancé quelque soit l'état de réussite de sortie, success seulement si
+        // on est arrivé au bout sans erreur, et failure au contraire si on obtient un 
+        // code d'erreur lors d'un step.
+        always {
+            echo "this always happen"
+            //sh 'docker rm -f calculatortest 2>/dev/null'
+        }
+        failure {
+            mail to: "kama.djemel@gmail.com",
+            subject: "this pipeline failed.",
+            body: "you're a failure."
+        }
+    }
+
 }
