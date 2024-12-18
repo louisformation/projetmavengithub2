@@ -4,7 +4,7 @@
         DOCKER_IMAGE_NAME = 'kbeber/calculator'
         DOCKER_CREDENTIALS_ID = 'credential_docker_hub_internet' // ID des credentials dans Jenkins
 		DOCKER_USER = 'kama.djemel@gmail.com'
-		DOCKER_PASS = 'soleil1&'
+		DOCKER_PASS = 'dckr_pat_3taOUuyRCAo_GZvhhAnKm68kAaM'
         }
    stages {
      stage("checkout"){
