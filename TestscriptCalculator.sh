@@ -8,6 +8,7 @@ response=$(curl -s http://localhost:8080/sum?a=5\&b=6)
 if  [ "$response" -eq  11 ] ; then
   	echo "ok"
  else 
+echo "response $response"
 echo "pas ok"
 fi 
 echo "Script termine"
