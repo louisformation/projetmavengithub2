@@ -61,6 +61,10 @@
      stage("deploiement"){
       steps{
          echo "déploiement de l'application"
+                echo "déploiement de l'application"
+		 sh 'chmod +x TestscriptCalculator.sh'
+		 def result = sh(script: './TestscriptCalculator.sh', returnStatus: true)
+		 echo "Code de retour : ${result}"
       }
      }
    }
@@ -72,7 +76,7 @@
         // code d'erreur lors d'un step.
         always {
             echo "this always happen"
-            //sh 'docker rm -f calculatortest 2>/dev/null'
+            sh 'docker rm -f calculator 2>/dev/null'
             script {
                 sh "docker logout" // Déconnexion de Docker Hub
             }
