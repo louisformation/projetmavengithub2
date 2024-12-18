@@ -1,5 +1,11 @@
   pipeline {
    agent any
+    environment {
+        DOCKER_IMAGE_NAME = 'kbeber/calculator'
+        DOCKER_CREDENTIALS_ID = 'credential_docker_hub_internet' // ID des credentials dans Jenkins
+		DOCKER_USER = 'kama.djemel@gmail.com'
+		DOCKER_PASS = 'soleil1&'
+        }
    stages {
      stage("checkout"){
        steps {
@@ -28,18 +34,30 @@
                    sh './mvnw package'
        }
      }
-     stage("image docker"){
-       steps{
-         echo "création de l'image docker"
-         sh 'docker build -t registry.gretadevops.com:5000/calculator .'
-       }
-     }
-     stage("push registry"){
-       steps{
-         echo "push de l'image sur le registry"
-         sh 'docker push registry.gretadevops.com:5000/calculator'
-       }
-     }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE_NAME}:latest ."
+                }
+            }
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
+                    }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+                }
+            }
+        }
+
      stage("deploiement"){
       steps{
          echo "déploiement de l'application"
@@ -55,6 +73,10 @@
         always {
             echo "this always happen"
             //sh 'docker rm -f calculatortest 2>/dev/null'
+            script {
+                sh "docker logout" // Déconnexion de Docker Hub
+            }
+            
         }
         failure {
             mail to: "kama.djemel@gmail.com",
