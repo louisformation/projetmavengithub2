@@ -82,7 +82,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sum-maven-spring_sum-maven-spring
-             And you are done!
 
   docker:
     needs: quality  # 🚀 Exécute ce job SEULEMENT après "quality"
